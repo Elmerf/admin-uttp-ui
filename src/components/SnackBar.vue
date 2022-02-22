@@ -32,6 +32,9 @@ export default {
     show: function () {
       this.toggleShow = this.show;
     },
+    toggleShow: function () {
+      this.$emit("toggleShow", this.toggleShow);
+    },
   },
 };
 </script>

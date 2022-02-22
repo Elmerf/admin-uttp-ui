@@ -1,14 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
+import Owners from "../views/Owners.vue";
+import OwnerPage from "../views/OwnerPage.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "Dashboard",
-    component: Dashboard,
+    path: "/pemilik",
+    name: "Owners",
+    alias: "/",
+    component: Owners,
+  },
+  {
+    path: "/pemilik/:nik",
+    name: "OwnerPage",
+    component: OwnerPage,
+    props: true,
   },
 ];
 

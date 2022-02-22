@@ -6,8 +6,12 @@ import vuetify from "./plugins/vuetify";
 import VueAxios from "vue-axios";
 import axios from "axios";
 
+const instance = axios.create({
+  baseURL: "http://192.168.1.9:3000",
+});
+
 Vue.config.productionTip = false;
-Vue.use(VueAxios, axios);
+Vue.use(VueAxios, instance);
 
 new Vue({
   router,

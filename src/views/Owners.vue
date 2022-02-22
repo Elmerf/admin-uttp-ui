@@ -6,7 +6,7 @@
       <owners-form></owners-form>
     </div>
     <v-divider></v-divider>
-    <data-table :header="headers" :data="data"></data-table>
+    <data-table :header="headers" type="owner"></data-table>
   </v-container>
 </template>
 
@@ -18,7 +18,7 @@ import moment from "moment";
 import OwnersForm from "../components/OwnersForm.vue";
 
 export default {
-  name: "DashboardView",
+  name: "OwnerView",
   data: () => {
     return {
       headers: [
@@ -59,18 +59,21 @@ export default {
     OwnersForm,
   },
   mounted() {
-    this.axios
-      .get("http://192.168.1.9:3000/api/owners")
-      .then((res) => {
-        this.data = res.data.map((el) => {
-          let localeDate = moment(el.createdAt).locale("id").format("LL");
-          return {
-            ...el,
-            createdAt: localeDate,
-          };
-        });
-      })
-      .catch((err) => console.log(err));
+    if (!this.$store.state.ownersData.length) {
+      this.axios
+        .get("/api/owners")
+        .then((res) => {
+          this.data = res.data.map((el) => {
+            let localeDate = moment(el.createdAt).locale("id").format("LL");
+            return {
+              ...el,
+              createdAt: localeDate,
+            };
+          });
+          this.$store.commit("addOwners", this.data);
+        })
+        .catch((err) => console.log(err));
+    }
   },
 };
 </script>
