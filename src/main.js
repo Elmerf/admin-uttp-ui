@@ -7,7 +7,7 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://192.168.1.9:3000",
+  baseURL: "https://admin-app-be.herokuapp.com/",
 });
 
 Vue.config.productionTip = false;
