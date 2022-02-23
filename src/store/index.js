@@ -12,7 +12,8 @@ export default new Vuex.Store({
       ownersData: [],
       ownerEditItem: {},
       ownerOldNik: "",
-      onwerSelectedIndex: -1,
+      ownerSelectedIndex: -1,
+      ownerDataUTTPs: [],
     };
   },
   mutations: {
@@ -23,12 +24,12 @@ export default new Vuex.Store({
       state.editFormVisible = !state.editFormVisible;
       Object.assign(state.ownerEditItem, data);
       state.ownerOldNik = data.nik;
-      state.onwerSelectedIndex = state.ownersData.indexOf(data);
+      state.ownerSelectedIndex = state.ownersData.indexOf(data);
     },
     toggleDeleteDialog(state, value) {
       state.deleteDialogVisible = !state.deleteDialogVisible;
       state.ownerOldNik = value;
-      state.onwerSelectedIndex = state.ownersData
+      state.ownerSelectedIndex = state.ownersData
         .map((e) => e.nik)
         .indexOf(value);
     },
@@ -36,10 +37,13 @@ export default new Vuex.Store({
       state.ownersData.push(...data);
     },
     editOwner(state, data) {
-      Object.assign(state.ownersData[state.onwerSelectedIndex], data);
+      Object.assign(state.ownersData[state.ownerSelectedIndex], data);
     },
     deleteOwner(state) {
-      state.ownersData.splice(state.onwerSelectedIndex, 1);
+      state.ownersData.splice(state.ownerSelectedIndex, 1);
+    },
+    addOwnerDataUTTP(state, data) {
+      state.ownerDataUTTPs.push(...data);
     },
   },
   actions: {},
