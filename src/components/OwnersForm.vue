@@ -31,7 +31,8 @@
             <v-col>
               <v-btn
                 class="red darken-1 elevation-1"
-                :disabled="!valid"
+                :loading="loading"
+                :disabled="!valid || loading"
                 @click="submitForm"
                 block
                 >Submit <v-icon right>mdi-send</v-icon></v-btn
@@ -88,7 +89,8 @@
               <v-col>
                 <v-btn
                   class="red darken-1 elevation-1"
-                  :disabled="!editValid"
+                  :loading="loading2"
+                  :disabled="!editValid || loading2"
                   @click="editOwner"
                   block
                   >Ubah <v-icon right>mdi-check-outline</v-icon></v-btn
@@ -148,6 +150,8 @@ export default {
       showSnackbar: false,
       text: "",
       color: "",
+      loading: false,
+      loading2: false,
     };
   },
   computed: {
@@ -217,6 +221,7 @@ export default {
     },
     submitForm() {
       if (this.valid) {
+        this.loading = true;
         this.axios
           .post("/api/owners", {
             nama: this.name,
@@ -224,6 +229,7 @@ export default {
           })
           .then((res) => {
             if (res.status === 200) {
+              this.loading = false;
               this.showSnackbar = true;
               this.text = "Berhasil Menambahkan Data Pemilik";
               this.color = "success";
@@ -252,6 +258,7 @@ export default {
     },
     editOwner() {
       if (this.editValid) {
+        this.loading2 = true;
         const data = {
           nama: this.editItem.nama,
           nik: this.editItem.nik,
@@ -260,6 +267,7 @@ export default {
         this.axios
           .put(`/api/owners/${this.oldNik}`, data)
           .then((res) => {
+            this.loading2 = false;
             this.showSnackbar = true;
             this.text = res.data.message;
             this.color = "success";
