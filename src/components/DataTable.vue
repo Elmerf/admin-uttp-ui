@@ -1,8 +1,10 @@
 <template>
   <v-card class="elevation-4 mt-4">
-    <v-row>
-      <v-col lg="6" offset-lg="6">
-        <v-card-title>
+    <v-card-title>
+      <v-row>
+        <v-col>{{ title }}</v-col>
+        <v-spacer></v-spacer>
+        <v-col lg="4">
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
@@ -14,14 +16,14 @@
             color="orange darken-1"
           >
           </v-text-field>
-        </v-card-title>
-      </v-col>
-    </v-row>
+        </v-col>
+      </v-row>
+    </v-card-title>
     <v-data-table
       :search="search"
       :headers="header"
       :items="data"
-      :loading="!data.length"
+      :loading="!data.length && !emptyData"
       class="mx-4 row-pointer"
       @click:row="handleClick"
     >
@@ -62,6 +64,8 @@
 <script>
 export default {
   props: {
+    isEmpty: Boolean,
+    title: String,
     header: Array,
     type: String,
   },
@@ -80,10 +84,27 @@ export default {
       }
       return [];
     },
+    emptyData: {
+      get() {
+        return this.isEmpty;
+      },
+      set(value) {
+        return value;
+      },
+    },
   },
   methods: {
     handleClick(value) {
       if (this.type === "owner") {
+        sessionStorage.setItem(
+          value.nik,
+          JSON.stringify({
+            Nama: value.nama,
+            NIK: value.nik,
+            "Jumlah UTTP": value.jumlah_uttp,
+            Terdaftar: value.createdAt,
+          })
+        );
         this.$router.push({
           name: `OwnerPage`,
           params: {
@@ -98,6 +119,7 @@ export default {
     },
     deleteDialog(nik) {
       this.$store.commit("toggleDeleteDialog", nik);
+      if (!this.data.length) this.emptyData = true;
     },
   },
 };

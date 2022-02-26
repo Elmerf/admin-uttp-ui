@@ -36,14 +36,17 @@ export default new Vuex.Store({
     addOwners(state, data) {
       state.ownersData.push(...data);
     },
-    editOwner(state, data) {
-      Object.assign(state.ownersData[state.ownerSelectedIndex], data);
+    editOwner(state, value) {
+      Object.assign(state.ownersData[value.index], value.data);
     },
-    deleteOwner(state) {
-      state.ownersData.splice(state.ownerSelectedIndex, 1);
+    deleteOwner(state, index) {
+      state.ownersData.splice(index, 1);
     },
     addOwnerDataUTTP(state, data) {
       state.ownerDataUTTPs.push(...data);
+    },
+    emptiedOwnerDataUTTP(state) {
+      state.ownerDataUTTPs = [];
     },
   },
   actions: {},

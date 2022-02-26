@@ -1,7 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Owners from "../views/Owners.vue";
-import OwnerPage from "../views/OwnerPage.vue";
 
 Vue.use(VueRouter);
 
@@ -10,12 +8,12 @@ const routes = [
     path: "/pemilik",
     name: "Owners",
     alias: "/",
-    component: Owners,
+    component: () => import("../views/Owners.vue"),
   },
   {
     path: "/pemilik/:nik",
     name: "OwnerPage",
-    component: OwnerPage,
+    component: () => import("../views/OwnerPage.vue"),
     props: true,
   },
 ];

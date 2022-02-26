@@ -43,7 +43,7 @@
                 class="orange darken-1 elevation-1"
                 @click="toggleVisible"
                 block
-                >Cancel <v-icon right>mdi-close-circle</v-icon></v-btn
+                >Close <v-icon right>mdi-close-circle</v-icon></v-btn
               >
             </v-col>
           </v-row>
@@ -101,7 +101,7 @@
                   class="orange darken-1 elevation-1"
                   @click="closeForm"
                   block
-                  >Cancel <v-icon right>mdi-close-circle</v-icon></v-btn
+                  >Close <v-icon right>mdi-close-circle</v-icon></v-btn
                 >
               </v-col>
             </v-row>
@@ -130,7 +130,8 @@
 </template>
 
 <script>
-import SnackBar from "./SnackBar.vue";
+const SnackBar = () => import("./SnackBar.vue");
+
 import moment from "moment";
 
 export default {
@@ -257,6 +258,8 @@ export default {
       }
     },
     editOwner() {
+      const index = this.$store.state.ownerSelectedIndex;
+
       if (this.editValid) {
         this.loading2 = true;
         const data = {
@@ -272,10 +275,11 @@ export default {
             this.text = res.data.message;
             this.color = "success";
 
-            this.$store.commit("editOwner", data);
-            this.closeForm();
+            this.$store.commit("editOwner", { data, index });
+            if (this.$store.state.editFormVisible) this.closeForm();
           })
           .catch((err) => {
+            this.loading2 = false;
             if (err.response.status === 500) {
               this.showSnackbar = true;
               this.text = err.response.data.message;
@@ -285,14 +289,17 @@ export default {
       }
     },
     deleteOwner() {
+      const index = this.$store.state.ownerSelectedIndex;
+
       this.axios.delete(`/api/owners/${this.oldNik}`).then((res) => {
         if (res.status === 200) {
           this.showSnackbar = true;
           this.text = res.data.message;
           this.color = "success";
 
-          this.$store.commit("deleteOwner");
-          this.closeDialog();
+          this.$store.commit("deleteOwner", index);
+          if (this.$store.state.deleteDialogVisible) this.closeDialog();
+          if (!this.$store.state.ownersData.length) this.$emit("dataIsCleared");
         }
       });
     },

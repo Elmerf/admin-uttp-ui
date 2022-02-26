@@ -3,19 +3,24 @@
     <app-heading title="Data Pemilik"></app-heading>
     <div>
       <add-button formType="owner"></add-button>
-      <owners-form></owners-form>
+      <owners-form @dataIsCleared="dataIsEmpty = true"></owners-form>
     </div>
     <v-divider></v-divider>
-    <data-table :header="headers" type="owner"></data-table>
+    <data-table
+      :header="headers"
+      :isEmpty="dataIsEmpty"
+      type="owner"
+    ></data-table>
   </v-container>
 </template>
 
 <script>
-import AddButton from "../components/AddButton.vue";
-import AppHeading from "../components/AppHeading.vue";
-import DataTable from "../components/DataTable.vue";
+const AddButton = () => import("../components/AddButton.vue");
+const AppHeading = () => import("../components/AppHeading.vue");
+const DataTable = () => import("../components/DataTable.vue");
+const OwnersForm = () => import("../components/OwnersForm.vue");
+
 import moment from "moment";
-import OwnersForm from "../components/OwnersForm.vue";
 
 export default {
   name: "OwnerView",
@@ -50,6 +55,7 @@ export default {
         },
       ],
       data: [],
+      dataIsEmpty: false,
     };
   },
   components: {
@@ -63,6 +69,7 @@ export default {
       this.axios
         .get("/api/owners")
         .then((res) => {
+          if (!res.data.length) this.dataIsEmpty = true;
           this.data = res.data.map((el) => {
             let localeDate = moment(el.createdAt).locale("id").format("LL");
             return {

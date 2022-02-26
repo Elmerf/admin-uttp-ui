@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: "AddButton",
   props: {
     formType: String,
   },
@@ -14,6 +15,7 @@ export default {
       if (form === "owner" && !this.$store.state.ownerFormVisible) {
         this.$store.commit("toggleOwnerVisibility");
       }
+      this.$emit("visible");
     },
   },
 };
