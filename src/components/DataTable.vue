@@ -3,8 +3,7 @@
     <v-card-title>
       <v-row>
         <v-col>{{ title }}</v-col>
-        <v-spacer></v-spacer>
-        <v-col lg="4">
+        <v-col cols="12" lg="4">
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
@@ -25,6 +24,8 @@
       :items="data"
       :loading="!data.length && !emptyData"
       class="mx-4 row-pointer"
+      :show-expand="showExpand"
+      item-key="kode_uttp"
       @click:row="handleClick"
     >
       <template v-slot:[`item.action`]="{ item }">
@@ -49,13 +50,18 @@
               v-on="on"
               icon
               color="red darken-1"
-              @click.stop="deleteDialog(item.nik)"
+              @click.stop="deleteDialog(item)"
             >
               <v-icon medium> mdi-delete </v-icon>
             </v-btn>
           </template>
           <span>Delete</span>
         </v-tooltip>
+      </template>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          {{ item.keterangan ? item.keterangan : "Tidak ada keterangan" }}
+        </td>
       </template>
     </v-data-table>
   </v-card>
@@ -68,6 +74,7 @@ export default {
     title: String,
     header: Array,
     type: String,
+    showExpand: Boolean,
   },
   data() {
     return {
@@ -81,6 +88,10 @@ export default {
       }
       if (this.type === "ownerPage") {
         return this.$store.state.ownerDataUTTPs;
+      }
+      if (this.type === "dataUTTP") {
+        const data = [...this.$store.state.dataUTTPs];
+        return data;
       }
       return [];
     },
@@ -115,10 +126,16 @@ export default {
       }
     },
     editForm(value) {
-      this.$store.commit("toggleEditFormVisibility", value);
+      if (this.type == "owner")
+        this.$store.commit("toggleEditFormVisibility", value);
+
+      this.$emit("showEditForm", value);
     },
-    deleteDialog(nik) {
-      this.$store.commit("toggleDeleteDialog", nik);
+    deleteDialog(item) {
+      if (this.type == "owner")
+        this.$store.commit("toggleDeleteDialog", item.nik);
+
+      this.$emit("showDeleteDialog", item);
       if (!this.data.length) this.emptyData = true;
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <app-heading title="Data Pemilik"></app-heading>
+    <app-heading title="Pemilik UTTP"></app-heading>
     <div>
       <add-button formType="owner"></add-button>
       <owners-form @dataIsCleared="dataIsEmpty = true"></owners-form>
@@ -9,6 +9,7 @@
     <data-table
       :header="headers"
       :isEmpty="dataIsEmpty"
+      title="Semua Pemilik UTTP"
       type="owner"
     ></data-table>
   </v-container>

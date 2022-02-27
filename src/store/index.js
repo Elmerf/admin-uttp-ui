@@ -8,6 +8,7 @@ export default new Vuex.Store({
     return {
       editFormVisible: false,
       deleteDialogVisible: false,
+      dataUTTPs: [],
       ownerFormVisible: false,
       ownersData: [],
       ownerEditItem: {},
@@ -45,8 +46,23 @@ export default new Vuex.Store({
     addOwnerDataUTTP(state, data) {
       state.ownerDataUTTPs.push(...data);
     },
+    deleteOwnerDataUTTP(state, index) {
+      state.ownerDataUTTPs.splice(index, 1);
+    },
+    editOwnerDataUTTP(state, data) {
+      Object.assign(state.ownerDataUTTPs[data.index], data.value);
+    },
     emptiedOwnerDataUTTP(state) {
       state.ownerDataUTTPs = [];
+    },
+    increaseJumlahUTTP(state, index) {
+      state.ownersData[index].jumlah_uttp += 1;
+    },
+    decreaseJumlahUTTP(state, index) {
+      state.ownersData[index].jumlah_uttp -= 1;
+    },
+    addDataUTTP(state, data) {
+      state.dataUTTPs.push(...data);
     },
   },
   actions: {},

@@ -5,9 +5,14 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/overview",
+    name: "Overview",
+    alias: "/",
+    component: () => import("../views/Overview.vue"),
+  },
+  {
     path: "/pemilik",
     name: "Owners",
-    alias: "/",
     component: () => import("../views/Owners.vue"),
   },
   {
@@ -15,6 +20,21 @@ const routes = [
     name: "OwnerPage",
     component: () => import("../views/OwnerPage.vue"),
     props: true,
+  },
+  {
+    path: "/data-uttp",
+    name: "DataUTTP",
+    component: () => import("../views/DataUTTP.vue"),
+  },
+  {
+    path: "/laporan",
+    name: "LaporanPage",
+    component: () => import("../views/Laporan.vue"),
+  },
+  {
+    path: "/setting",
+    name: "SettingPage",
+    component: () => import("../views/Setting.vue"),
   },
 ];
 

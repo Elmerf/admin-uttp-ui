@@ -1,10 +1,11 @@
+import axios from "axios";
 import Vue from "vue";
+import VueAxios from "vue-axios";
+
 import App from "./App.vue";
+import vuetify from "./plugins/vuetify";
 import router from "./router";
 import store from "./store";
-import vuetify from "./plugins/vuetify";
-import VueAxios from "vue-axios";
-import axios from "axios";
 
 const instance = axios.create({
   baseURL: "https://admin-app-be.herokuapp.com/",
