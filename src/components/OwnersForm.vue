@@ -250,6 +250,7 @@ export default {
           })
           .catch((err) => {
             if (err.response.status === 400) {
+              this.loading = false;
               this.showSnackbar = true;
               this.text = err.response.data.message;
               this.color = "alert";
