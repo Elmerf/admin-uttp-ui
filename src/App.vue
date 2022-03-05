@@ -35,7 +35,9 @@
     <v-app-bar app class="red darken-2">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Admin UTTP</v-toolbar-title>
+      <v-toolbar-title style="cursor: pointer" @click="pushRouterTo('/', 0)"
+        >Admin UTTP</v-toolbar-title
+      >
     </v-app-bar>
 
     <v-main>
@@ -61,7 +63,8 @@ export default {
     ],
   }),
   methods: {
-    pushRouterTo(path) {
+    pushRouterTo(path, index) {
+      if (index !== undefined) this.selectedItem = index;
       this.$router.push(path).catch(() => {});
     },
   },

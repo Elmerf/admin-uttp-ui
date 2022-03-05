@@ -64,6 +64,9 @@ export default new Vuex.Store({
     addDataUTTP(state, data) {
       state.dataUTTPs.push(...data);
     },
+    emptyDataUTTP(state) {
+      state.dataUTTPs = [];
+    },
   },
   actions: {},
   modules: {},

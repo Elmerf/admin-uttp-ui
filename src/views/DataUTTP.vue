@@ -50,6 +50,9 @@ export default {
       });
     }
   },
+  beforeDestroy() {
+    this.$store.commit("emptyDataUTTP");
+  },
 };
 </script>
 
