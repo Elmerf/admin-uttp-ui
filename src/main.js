@@ -8,8 +8,29 @@ import router from "./router";
 import store from "./store";
 
 const instance = axios.create({
-  baseURL: "https://admin-app-be.herokuapp.com/",
+  baseURL: "http://localhost:3000/",
 });
+
+instance.interceptors.request.use((config) => {
+  if (localStorage.getItem("user-session"))
+    config.headers["x-access-token"] = JSON.parse(
+      localStorage.getItem("user-session")
+    ).accessToken;
+  return config;
+});
+
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (err) => {
+    if (err.response.status == 401) {
+      router.push("/auth/login").catch(() => {});
+      localStorage.removeItem("user-session");
+    }
+    return Promise.reject(err);
+  }
+);
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, instance);
