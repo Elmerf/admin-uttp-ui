@@ -8,7 +8,7 @@ import router from "./router";
 import store from "./store";
 
 const instance = axios.create({
-  baseURL: "http://localhost:3000/",
+  baseURL: "https://admin-app=be.herokuapp.com",
 });
 
 instance.interceptors.request.use((config) => {
