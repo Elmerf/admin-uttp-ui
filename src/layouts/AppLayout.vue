@@ -30,6 +30,15 @@
               <v-list-item-title v-text="item.text"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -107,6 +116,10 @@ export default {
     pushRouterTo(path, index) {
       if (index !== undefined) this.selectedItem = index;
       this.$router.push(path).catch(() => {});
+    },
+    logout() {
+      localStorage.removeItem("user-session");
+      this.$router.push("/auth/login");
     },
   },
 };
